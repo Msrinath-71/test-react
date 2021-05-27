@@ -25,6 +25,16 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: CI=false npm run build 
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.3
+      with:
+        name: Output
+        path : ./build
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.0.9
+      with:
+       name: Doneoutput
+       path: ./
     
        
    
