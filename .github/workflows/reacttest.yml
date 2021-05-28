@@ -3,9 +3,9 @@
 
 name: test react 
 
-
 on:
-  push
+  push:
+    branches: [ develop ]
 
 jobs:
   build:
