@@ -24,14 +24,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: CI=false npm run build 
-    - name: Veracode Static Analysis Pipeline Scan and SARIF import
-  # You may pin to the exact commit or the version.
-  # uses: veracode/veracode-pipeline-scan-results-to-sarif@c4e3ac33a116df4b7074d53747d8814e8fdf974b
-      uses: veracode/veracode-pipeline-scan-results-to-sarif@v0.1.5
+    - name: Run linters
+      uses: wearerequired/lint-action@v1
       with:
-        pipeline-results-json: results.json
-        output-results-sarif: veracode-results.sarif
+          eslint: true
+          prettier: true
+    - run: CI=false npm run build 
+    
    
     
     - name: Upload a Build Artifact
