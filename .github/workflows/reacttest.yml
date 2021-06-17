@@ -32,7 +32,7 @@ jobs:
       uses: actions/upload-artifact@v2.2.3
       with:
         name: Output
-        path : ./build
+        path : /home/runner/
    
    
     
@@ -45,7 +45,7 @@ jobs:
           uses: actions/download-artifact@v2.0.9
           with:
                 name: Output
-                path: ./
+                path: /home/runner/
         - name: Veracode upload and scan
           # You may pin to the exact commit or the version.
           # uses: veracode/veracode-uploadandscan-action@c5e63c8383debb26a0d48250eab75d94327635ba
@@ -53,7 +53,7 @@ jobs:
           with:
            appname: RxCrossroads - Portal
            createprofile: false
-           filepath: ./Output
+           filepath: /home/runner/
            version:  ${{ github.run_id }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
