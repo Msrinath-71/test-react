@@ -33,6 +33,7 @@ jobs:
       with:
        name: Vera
        path : /home/runner/work/test-react/test-react
+       exclude: node_modules
    
    
     
