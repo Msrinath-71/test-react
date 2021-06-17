@@ -32,7 +32,7 @@ jobs:
       uses: actions/upload-artifact@v2.2.3
       with:
        name: Vera
-       path : ./build
+       path : build/Veracode.zip
    
    
     
@@ -48,7 +48,7 @@ jobs:
           with:
            appname: RxCrossroads - Portal
            createprofile: false
-           filepath: '**/Vera.*'
+           filepath: 'Veracode.zip'
            version:  ${{ github.run_id }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
