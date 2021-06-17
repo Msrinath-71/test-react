@@ -11,7 +11,7 @@ env:
   ARTIFACTORY_API_KEY:  ${{ secrets.DEV_PORTAL_JFROG_API_KEY }}
 jobs:
    build_and_test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         node-version: [14.x]
@@ -32,13 +32,13 @@ jobs:
       uses: actions/upload-artifact@v2.2.3
       with:
        name: Vera
-       path : build/Veracode.zip
+       path : ./
    
    
     
    Veracode-scan:
      needs: [build_and_test]
-     runs-on: ubuntu-latest
+     runs-on: windows-latest
      steps:
         - uses: actions/checkout@v2
         - name: Veracode upload and scan
@@ -48,7 +48,7 @@ jobs:
           with:
            appname: RxCrossroads - Portal
            createprofile: false
-           filepath: 'Veracode.zip'
+           filepath: ./
            version:  ${{ github.run_id }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
