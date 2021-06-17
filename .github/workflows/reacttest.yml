@@ -31,8 +31,7 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.3
       with:
-        
-        path : src/
+       path : ./build
    
    
     
@@ -48,7 +47,7 @@ jobs:
           with:
            appname: RxCrossroads - Portal
            createprofile: false
-           filepath: src/
+           filepath: ./build
            version:  ${{ github.run_id }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
