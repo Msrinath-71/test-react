@@ -32,7 +32,7 @@ jobs:
       uses: actions/upload-artifact@v2.2.3
       with:
        name: Vera
-       path : /home/
+       path : /home/runner/work/test-react/test-react
    
    
     
@@ -48,7 +48,7 @@ jobs:
           with:
            appname: RxCrossroads - Portal
            createprofile: false
-           filepath: '/home/Vera.*'
+           filepath: '/home/runner/work/test-react/test-react/Vera.*'
            version:  ${{ github.run_id }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
