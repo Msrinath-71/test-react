@@ -1,42 +1,100 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: test react 
-
+name: React CICD
 on:
-  push:
-    branches: [ test ]
-
+ pull_request_target:
+  branches: [test]
+ push:
+  branches: [test]
+env:
+  DOCKER_IMAGE_NAME: mck-developer-portal-sandbox-docker.jfrog.io/test-hvs
+  PRISMA_USER:  ${{ secrets.PRISMA_USER }}
+  PRISMA_PASSWORD:  ${{ secrets.PRISMA_PASSWORD }}
+  ARTIFACTORY_API_KEY:  ${{ secrets.DEV_PORTAL_JFROG_API_KEY }}
 jobs:
-  build:
-
+   build_and_test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [12.x]
-        # See   the supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+        node-version: [14.x]
+        # See  the supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
+    - id: setup-prisma
+      name: Setup Prisma CLI
+      run: |
+        curl -u $PRISMA_USER:$PRISMA_PASSWORD --output twistcli https://us-east1.cloud.twistlock.com/us-2-158257908/api/v1/util/twistcli && chmod +x twistcli && mv twistcli /tmp/
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run test
-    - run: CI=false npm run build 
-    
-   
-    
+    - run: CI=false npm run build
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.3
       with:
         name: Output
         path : ./build
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2.0.9
-      with:
-       name: Output
-       path: ./
    
+   
+    
+   Veracode-scan:
+     needs: [build_and_test]
+     runs-on: ubuntu-latest
+     steps:
+        - uses: actions/checkout@v2
+        - name: Download a Build Artifact
+          uses: actions/download-artifact@v2.0.9
+          with:
+                name: Output
+                path: ./
+        - name: Veracode upload and scan
+          # You may pin to the exact commit or the version.
+          # uses: veracode/veracode-uploadandscan-action@c5e63c8383debb26a0d48250eab75d94327635ba
+          uses: veracode/veracode-uploadandscan-action@0.2.1
+          with:
+           appname: RxCrossroads - Portal
+           createprofile: false
+           filepath: ./Output
+           version:  ${{ github.run_id }}
+           vid: ${{ secrets.VERACODE_API_ID }}
+           vkey: ${{ secrets.VERACODE_API_KEY }}
+           sandboxname: Test-HVS-Portal
+           selectedpreviously: True
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v1
+        - uses: benjlevesque/short-sha@v1.2
+          id: short-sha
+          with:
+           length: 6
+        - name: Login to jFrog Docker Registry
+          uses: docker/login-action@v1
+          with:
+           username: ${{ secrets.DEV_PORTAL_JFROG_USERNAME }}
+           password: ${{ secrets.DEV_PORTAL_JFROG_API_KEY }}
+           registry: mck-developer-portal-sandbox-docker.jfrog.io
+        - name: Build and Push
+          id: docker_build
+          uses: docker/build-push-action@v2
+          with:
+           context: .
+           file: ./Dockerfile
+           tags: |
+            ${{ env.DOCKER_IMAGE_NAME }}:${{ steps.short-sha.outputs.sha }}
+            ${{ env.DOCKER_IMAGE_NAME }}:latest
+           cache-from: type=registry,ref=${{ env.DOCKER_IMAGE_NAME }}:latest
+           cache-to: type=inline
+           load: true
+        - id: scan-docker-image
+          name: Scan docker image
+          run: |
+           /tmp/twistcli images scan --details --address https://us-east1.cloud.twistlock.com/us-2-158257908 --user $PRISMA_USER --password $PRISMA_PASSWORD $DOCKER_IMAGE_NAME
+        - id: push-docker-image
+          name: Push docker image
+          run: |
+           docker push -a $DOCKER_IMAGE_NAME
+     outputs:
+           image-name: ${{ env.DOCKER_IMAGE_NAME }}:${{ steps.short-sha.outputs.sha }}
+ 
+    
+   
+    
+    
