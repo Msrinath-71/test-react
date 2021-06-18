@@ -19,7 +19,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
      - run: npm ci
      - run: CI=false npm run build
-     - name: Upload a Build Artifact
    Veracode-scan:
      needs: [build_and_test]
      runs-on: ubuntu-latest
