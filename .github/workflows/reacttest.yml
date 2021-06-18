@@ -32,7 +32,6 @@ jobs:
            appname: RxCrossroads - Portal
            createprofile: false
            filepath: ./build
-           pattern: build*
            version:  ${{ github.run_id }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
