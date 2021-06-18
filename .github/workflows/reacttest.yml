@@ -20,11 +20,12 @@ jobs:
      - run: npm ci
      - run: CI=false npm run build
      - name: Upload a Build Artifact
-       uses: actions/upload-artifact@v2.2.4
+     - name: Easy Zip Files
+       uses: vimtor/action-zip@v1
        with:
-    # Artifact name
-         name: Vera
-         path: Veracode.zip
+          files: / 
+          dest: Veracode-Archive
+          recursive: true
    Veracode-scan:
      needs: [build_and_test]
      runs-on: ubuntu-latest
@@ -37,7 +38,7 @@ jobs:
           with:
            appname: RxCrossroads - Portal
            createprofile: false
-           filepath: 'Veracode.zip'
+           filepath: 'Veracode-Archive'
            version:  ${{ github.run_id }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
