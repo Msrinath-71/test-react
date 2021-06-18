@@ -25,19 +25,15 @@ jobs:
           files: src/ 
           dest: Veracode-Archive
           recursive: true
-   Veracode-scan:
-     needs: [build_and_test]
-     runs-on: ubuntu-latest
-     steps:
-        - uses: actions/checkout@v2
-        - name: Veracode upload and scan
+   
+     - name: Veracode upload and scan
           # You may pin to the exact commit or the version.
           # uses: veracode/veracode-uploadandscan-action@c5e63c8383debb26a0d48250eab75d94327635ba
-          uses: veracode/veracode-uploadandscan-action@0.2.1
-          with:
+       uses: veracode/veracode-uploadandscan-action@0.2.1
+       with:
            appname: RxCrossroads - Portal
            createprofile: false
-           filepath: Veracode-Archive
+           filepath: 'Veracode-Archive'
            version:  ${{ github.run_id }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
