@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x]
-        # See  the supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        # See  supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
     - id: setup-prisma
       name: Setup Prisma CLI
