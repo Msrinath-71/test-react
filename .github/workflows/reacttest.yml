@@ -55,7 +55,7 @@ jobs:
           with:
            appname: RxCrossroads - Portal
            createprofile: false
-           filepath: /home/runner/work/
+           filepath: '/home/runner/work/Vera'
            version:  ${{ github.run_id }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
