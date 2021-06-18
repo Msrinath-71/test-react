@@ -12,15 +12,14 @@ jobs:
         node-version: [14.x]
         # See  supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
-     
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
+     - uses: actions/checkout@v2
+     - name: Use Node.js ${{ matrix.node-version }}
+       uses: actions/setup-node@v2
+       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: CI=false npm run build
-    - name: Upload a Build Artifact
+     - run: npm ci
+     - run: CI=false npm run build
+     - name: Upload a Build Artifact
    Veracode-scan:
      needs: [build_and_test]
      runs-on: ubuntu-latest
