@@ -25,6 +25,14 @@ jobs:
          files: src/ 
          dest: Veracode-Archive.zip
          recursive: true
+     - name: Get Time
+       id: time
+       uses: nanzm/get-time-action@v1.1
+       with:
+           timeZone: 8
+           format: 'YYYY-MM-DD-HH-mm-ss'
+     
+        
 
    
      - name: Veracode upload and scan
@@ -35,9 +43,10 @@ jobs:
            appname: RxCrossroads - Portal
            createprofile: false
            filepath: 'Veracode-Archive.zip'
-           version:  ${{ github.run_id }}
+           version: ${{ steps.time.outputs.time }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
            sandboxname: Test-HVS-Portal
+           scantimeout: 120
            selectedpreviously: True
         
