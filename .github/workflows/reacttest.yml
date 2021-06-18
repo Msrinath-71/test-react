@@ -19,12 +19,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
      - run: npm ci
      - run: CI=false npm run build
-     - name: Easy Zip Files
-       uses: vimtor/action-zip@v1
-       with:
-          files: src/ 
-          dest: Veracode-Archive
-          recursive: true
+     
    
      - name: Veracode upload and scan
           # You may pin to the exact commit or the version.
@@ -33,7 +28,7 @@ jobs:
        with:
            appname: RxCrossroads - Portal
            createprofile: false
-           filepath: 'Veracode-Archive'
+           filepath: './build'
            version:  ${{ github.run_id }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
