@@ -23,7 +23,7 @@ jobs:
        uses: vimtor/action-zip@v1
        with:
          files: src/ 
-         dest: Veracode-Archive
+         dest: Veracode-Archive.zip
          recursive: true
 
    
@@ -34,7 +34,7 @@ jobs:
        with:
            appname: RxCrossroads - Portal
            createprofile: false
-           filepath: 'Veracode-Archive'
+           filepath: 'Veracode-Archive.zip'
            version:  ${{ github.run_id }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
