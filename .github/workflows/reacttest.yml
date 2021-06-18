@@ -50,4 +50,4 @@ jobs:
            scantimeout: 120
            selectedpreviously: True
      - name: display result
-       run: echo "Veracode result is" ${{steps.Veracode-scan.outputs.status}}
+       run: echo "Veracode result is" ${{steps.Veracode-scan.outputs.policy_compliance_status}}
