@@ -73,13 +73,13 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: veracode report
+          name: Veracode-report
           path: D:\a\_temp\2021-06-22-19-47-54.pdf
           
       - name: Download a Build Artifact
         uses: actions/download-artifact@v2.0.10
         with:
-         name: Veracode report
+         name: Veracode-report
          path: './Veracode-Scans/'
           
    
