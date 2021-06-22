@@ -83,6 +83,12 @@ jobs:
           uses: ./
           path: Veracode-Scans/
           
-   
+      - name: Microsoft Teams Notification for package application
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
              
 
