@@ -95,6 +95,7 @@ jobs:
      - name: Copy files to another repository
        uses: nkoppel/push-files-to-another-repository@v1.0.1
        with:
+          token: ${{github.token}}
     
           source-files: 'Veracode-report'
     # Name of the destination username/organization
