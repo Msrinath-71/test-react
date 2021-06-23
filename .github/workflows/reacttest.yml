@@ -100,11 +100,11 @@ jobs:
          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
        with:
     
-         source_file: './Veracode-Scans/'
+         source_file: ./
     
          destination_repo:  Msrinath-71/Test
     
-         destination_folder: ./
+         destination_folder: 'Veracode-Scans'
     
          user_email: srinath.madabhushi@mckesson.com
    
