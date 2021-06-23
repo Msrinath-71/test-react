@@ -100,7 +100,7 @@ jobs:
        with:
          
     
-          source-files: 'Veracode-report'
+          source-files: /home/runner/work/test-react/test-react/Veracode-Scans/*
     # Name of the destination username/organization
           destination-github-username: Msrinath-71
     # Destination repository
