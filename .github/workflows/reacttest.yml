@@ -75,14 +75,31 @@ jobs:
         with:
           name: Veracode-report
           path: D:\a\_temp\2021-06-22-19-47-54.pdf
-          
+
+ 
       - name: Download a Build Artifact
         uses: actions/download-artifact@v2.0.10
         with:
           uses: Msrinath-71/test-react/edit/test
           name: Veracode-report
           path: ./
-          
+      - name: Copy files to another repository
+        uses: nkoppel/push-files-to-another-repository@v1.0.1
+        with:
+    
+          source-files: D:\a\_temp\2021-06-22-19-47-54.pdf
+    # Name of the destination username/organization
+          destination-github-username: Msrinath-71
+    # Destination repository
+          destination-repository-name: Test
+    # Email for the git commit
+          user-email: srinath.madabhushi@mckesson.com
+   
+          destination-directory: Veracode-Scans
+   
+          target-branch: main
+    
+ 
      
              
 
