@@ -51,7 +51,7 @@ jobs:
            selectedpreviously: True
    Veracode-Result:
     
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
       - name: Run the veracode file
@@ -62,31 +62,41 @@ jobs:
              
                $id= "2c6823bbd50562ed3e88a2acba6e36d9"
                $ky="d352818e85caca72327b268fe670b0d246dfe3e6d1ea4a380ce19eb1bcd37e6df6056dd78c75caff064023aa060b3d9e638662cda665f1df740345f4ea750b95"
-                $path= "/home/runner/work/test-react/test-react/Veracode-Scans/VeracodeC#API.exe -vid $id  -vkey $ky -action GetBuildList  -appid 464177   -sandboxid  3331502  -outputfilepath  /home/runner/work/_temp/*.xml"
+                $path= "D:\a\test-react\test-react\Veracode-Scans\VeracodeC#API.exe -vid $id  -vkey $ky -action GetBuildList  -appid 464177   -sandboxid  3331502  -outputfilepath D:\a\_temp\getbuild.xml"
                Invoke-Expression -Command "$path"
-               [XML]$buildinfo = [System.Xml.XmlDocument](Get-Content /home/runner/work/_temp/*.xml)
+               [XML]$buildinfo = [System.Xml.XmlDocument](Get-Content  D:\a\_temp\getbuild.xml)
                $buildinfo.GetType().FullName 
               $buildnumberget= $buildinfo.buildlist.build  | Where-Object {$_.version -eq   "2021-06-22-19-47-54" } |Select-Object build_id
-             $outpath="/home/runner/work/test-react/test-react/Veracode-Scans/VeracodeC#API.exe -vid $id -vkey $ky -action DetailedReport -buildid $buildnumberget.build_id  -format pdf  -outputfilepath /home/runner/work/_temp/2021-06-22-19-47-54.pdf"
+             $outpath="D:\a\test-react\test-react\Veracode-Scans\VeracodeC#API.exe -vid $id -vkey $ky -action DetailedReport -buildid $buildnumberget.build_id  -format pdf  -outputfilepath D:\a\_temp\2021-06-22-19-47-54.pdf"
              Invoke-Expression -Command " $outpath "
              
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: Veracode-report
-          path: /home/runner/work/_temp/2021-06-22-19-47-54.pdf
- 
+          path: D:\a\_temp\2021-06-22-19-47-54.pdf
+          
       - name: Download a Build Artifact
         uses: actions/download-artifact@v2.0.10
         with:
-          uses: Msrinath-71/test-react/edit/test
           name: Veracode-report
-          path: ./
-      - name: Copy files to another repository
-        uses: nkoppel/push-files-to-another-repository@v1.0.1
-        with:
+          uses: ./
+          path: Veracode-Scans/
+   Download-artifact:
+    needs: [Veracode-Result]
+    runs-on: ubuntu-latest
+    steps:
+     - name: Download a Build Artifact
+       uses: actions/download-artifact@v2.0.10
+       with:
+          name: Veracode-report
+          path: Veracode-Scans/
     
-          source-files: /home/runner/work/_temp/2021-06-22-19-47-54.pdf
+     - name: Copy files to another repository
+       uses: nkoppel/push-files-to-another-repository@v1.0.1
+       with:
+    
+          source-files: 'Veracode-report'
     # Name of the destination username/organization
           destination-github-username: Msrinath-71
     # Destination repository
