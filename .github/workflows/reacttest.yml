@@ -82,25 +82,16 @@ jobs:
           name: Veracode-report
           uses: ./
           path: Veracode-Scans/
-   Download-artifact:
-     
-     needs: [Veracode-Result]
-     runs-on: ubuntu-latest
-     steps:
-     - name: Download a Build Artifact
-       uses: actions/download-artifact@v2.0.10
-       with:
-          name: Veracode-report
-          path: Veracode-Scans/
+   
     
-     - name: Push a file to another repository
+      - name: Push a file to another repository
   
-       uses: dmnemec/copy_file_to_another_repo_action@v1.1.1
-       env:
+        uses: dmnemec/copy_file_to_another_repo_action@v1.1.1
+        env:
          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-       with:
+        with:
     
-         source_file: /home/runner/work/test-react/test-react/Veracode-Scans/Veracode-report
+         source_file: D:\a\_temp\2021-06-22-19-47-54.pdf
     
          destination_repo:  Msrinath-71/Test
     
