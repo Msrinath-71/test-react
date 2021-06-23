@@ -62,19 +62,19 @@ jobs:
              
                $id= "2c6823bbd50562ed3e88a2acba6e36d9"
                $ky="d352818e85caca72327b268fe670b0d246dfe3e6d1ea4a380ce19eb1bcd37e6df6056dd78c75caff064023aa060b3d9e638662cda665f1df740345f4ea750b95"
-                $path= "/home/runner/work/test-react/test-react/Veracode-Scans/VeracodeC#API.exe -vid $id  -vkey $ky -action GetBuildList  -appid 464177   -sandboxid  3331502  -outputfilepath  /tmp/getbuild.xml"
+                $path= "/home/runner/work/test-react/test-react/Veracode-Scans/VeracodeC#API.exe -vid $id  -vkey $ky -action GetBuildList  -appid 464177   -sandboxid  3331502  -outputfilepath  /home/runner/work/_temp/*.xml"
                Invoke-Expression -Command "$path"
-               [XML]$buildinfo = [System.Xml.XmlDocument](Get-Content  /tmp/getbuild.xml)
+               [XML]$buildinfo = [System.Xml.XmlDocument](Get-Content /home/runner/work/_temp/*.xml)
                $buildinfo.GetType().FullName 
               $buildnumberget= $buildinfo.buildlist.build  | Where-Object {$_.version -eq   "2021-06-22-19-47-54" } |Select-Object build_id
-             $outpath="/home/runner/work/test-react/test-react/Veracode-Scans/VeracodeC#API.exe -vid $id -vkey $ky -action DetailedReport -buildid $buildnumberget.build_id  -format pdf  -outputfilepath /tmp/2021-06-22-19-47-54.pdf"
+             $outpath="/home/runner/work/test-react/test-react/Veracode-Scans/VeracodeC#API.exe -vid $id -vkey $ky -action DetailedReport -buildid $buildnumberget.build_id  -format pdf  -outputfilepath /home/runner/work/_temp/2021-06-22-19-47-54.pdf"
              Invoke-Expression -Command " $outpath "
              
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: Veracode-report
-          path: /tmp/2021-06-22-19-47-54.pdf
+          path: /home/runner/work/_temp/2021-06-22-19-47-54.pdf
  
       - name: Download a Build Artifact
         uses: actions/download-artifact@v2.0.10
@@ -86,7 +86,7 @@ jobs:
         uses: nkoppel/push-files-to-another-repository@v1.0.1
         with:
     
-          source-files: /tmp/2021-06-22-19-47-54.pdf
+          source-files: /home/runner/work/_temp/2021-06-22-19-47-54.pdf
     # Name of the destination username/organization
           destination-github-username: Msrinath-71
     # Destination repository
