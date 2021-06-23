@@ -66,15 +66,15 @@ jobs:
                Invoke-Expression -Command "$path"
                [XML]$buildinfo = [System.Xml.XmlDocument](Get-Content  D:\a\_temp\getbuild.xml)
                $buildinfo.GetType().FullName 
-              $buildnumberget= $buildinfo.buildlist.build  | Where-Object {$_.version -eq   "${{github.event.repository.name }}.${{steps.time.outputs.time }}" } |Select-Object build_id
-             $outpath="D:\a\test-react\test-react\Veracode-Scans\VeracodeC#API.exe -vid $id -vkey $ky -action DetailedReport -buildid $buildnumberget.build_id  -format pdf  -outputfilepath D:\a\_temp\${{github.event.repository.name }}.${{steps.time.outputs.time }}.pdf"
+              $buildnumberget= $buildinfo.buildlist.build  | Where-Object {$_.version -eq   "${{needs.build_and_test.Veracode-scan.version.outputs}" } |Select-Object build_id
+             $outpath="D:\a\test-react\test-react\Veracode-Scans\VeracodeC#API.exe -vid $id -vkey $ky -action DetailedReport -buildid $buildnumberget.build_id  -format pdf  -outputfilepath D:\a\_temp\${{needs.build_and_test.Veracode-scan.version.outputs}.pdf"
              Invoke-Expression -Command " $outpath "
              
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: Veracode-report
-          path: D:\a\_temp\${{github.event.repository.name }}.${{steps.time.outputs.time }}.pdf
+          path: D:\a\_temp\${{needs.build_and_test.Veracode-scan.version.outputs}.pdf
              
           
       - name: Download a Build Artifact
