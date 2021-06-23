@@ -79,8 +79,9 @@ jobs:
       - name: Download a Build Artifact
         uses: actions/download-artifact@v2.0.10
         with:
+          uses: Msrinath-71/test-react/edit/test
           name: Veracode-report
-          path: Msrinath--71/test-react/Veracode-Scans
+          path:./
           
      
              
