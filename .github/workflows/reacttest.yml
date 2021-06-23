@@ -92,7 +92,7 @@ jobs:
        uses: actions/download-artifact@v2.0.10
        with:
           name: Veracode-report
-          path: Veracode-Scans/
+          path: ./
      - name: Push a file to another repository
   
        uses: dmnemec/copy_file_to_another_repo_action@v1.1.1
@@ -100,11 +100,11 @@ jobs:
          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
        with:
     
-         source_file: /home/runner/work/test-react/test-react/Veracode-Scans/*
+         source_file: ./
     
          destination_repo:  Msrinath-71/Test
     
-         destination_folder: Veracode-Scans/
+         destination_folder: ./
     
          user_email: srinath.madabhushi@mckesson.com
    
