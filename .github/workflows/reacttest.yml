@@ -43,16 +43,16 @@ jobs:
            appname: RxCrossroads - Portal
            createprofile: false
            filepath: 'Veracode-Archive.zip'
-           version: ${{ github.event.repository.name }}.${{ steps.time.outputs.time }}
+           version: ${{github.event.repository.name }}.${{ steps.time.outputs.time }}
            vid: ${{ secrets.VERACODE_API_ID }}
            vkey: ${{ secrets.VERACODE_API_KEY }}
            sandboxname: Test-HVS-Portal
            scantimeout: 120
            selectedpreviously: True
    Veracode-Result:
-    needs: [build_and_test]
-    runs-on: windows-latest
-    steps:
+     needs: [build_and_test]
+     runs-on: windows-latest
+     steps:
       - uses: actions/checkout@v2
       - name: Run the veracode file
         shell: pwsh
@@ -66,15 +66,15 @@ jobs:
                Invoke-Expression -Command "$path"
                [XML]$buildinfo = [System.Xml.XmlDocument](Get-Content  D:\a\_temp\getbuild.xml)
                $buildinfo.GetType().FullName 
-              $buildnumberget= $buildinfo.buildlist.build  | Where-Object {$_.version -eq   "${{ github.event.repository.name }}.${{build_and_test.steps.time.outputs.time }}" } |Select-Object build_id
-             $outpath="D:\a\test-react\test-react\Veracode-Scans\VeracodeC#API.exe -vid $id -vkey $ky -action DetailedReport -buildid $buildnumberget.build_id  -format pdf  -outputfilepath D:\a\_temp\${{ github.event.repository.name }}.${{build_and_test.steps.time.outputs.time }}.pdf"
+              $buildnumberget= $buildinfo.buildlist.build  | Where-Object {$_.version -eq   "${{github.event.repository.name }}.${{build_and_test.steps.time.outputs.time }}" } |Select-Object build_id
+             $outpath="D:\a\test-react\test-react\Veracode-Scans\VeracodeC#API.exe -vid $id -vkey $ky -action DetailedReport -buildid $buildnumberget.build_id  -format pdf  -outputfilepath D:\a\_temp\${{github.event.repository.name }}.${{build_and_test.steps.time.outputs.time }}.pdf"
              Invoke-Expression -Command " $outpath "
              
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: Veracode-report
-          path: D:\a\_temp\${{ github.event.repository.name }}.${{build_and_test.steps.time.outputs.time }}.pdf
+          path: D:\a\_temp\${{github.event.repository.name }}.${{build_and_test.steps.time.outputs.time }}.pdf
              
           
       - name: Download a Build Artifact
