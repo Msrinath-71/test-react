@@ -93,24 +93,26 @@ jobs:
           name: Veracode-report
           path: Veracode-Scans/
     
-     - name: Copy files to another repository
-       uses: nkoppel/push-files-to-another-repository@v1.0.1
+     - name: Push a file to another repository
+  
+       uses: dmnemec/copy_file_to_another_repo_action@v1.1.1
        env:
-        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
        with:
-         
     
-          source-files: /home/runner/work/test-react/test-react/Veracode-Scans/*
-    # Name of the destination username/organization
-          destination-github-username: Msrinath-71
-    # Destination repository
-          destination-repository-name: Test
-    # Email for the git commit
-          user-email: srinath.madabhushi@mckesson.com
+         source_file: /home/runner/work/test-react/test-react/Veracode-Scans/Veracode-report
+    
+         destination_repo:  Msrinath-71/Test
+    
+         destination_folder: Veracode-Scans/
+    
+         user_email: srinath.madabhushi@mckesson.com
    
-          destination-directory: Veracode-Scans
-   
-          target-branch: main
+         user_name: Msrinath-71
+    
+         destination_branch: main
+    
+         
     
  
      
