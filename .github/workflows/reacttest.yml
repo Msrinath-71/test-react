@@ -81,7 +81,7 @@ jobs:
         with:
           uses: Msrinath-71/test-react/edit/test
           name: Veracode-report
-          path:./
+          path: ./
           
      
              
