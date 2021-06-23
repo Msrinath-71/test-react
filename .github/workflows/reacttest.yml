@@ -68,7 +68,7 @@ jobs:
                [XML]$buildinfo = [System.Xml.XmlDocument](Get-Content  D:\a\_temp\getbuild.xml)
                $buildinfo.GetType().FullName 
               $buildnumberget= $buildinfo.buildlist.build  | Where-Object {$_.version -eq   "${{needs.build_and_test.outputs.Value}}" } |Select-Object build_id
-             $outpath="D:\a\test-react\test-react\Veracode-Scans\VeracodeC#API.exe -vid $id -vkey $ky -action DetailedReport -buildid $buildnumberget.build_id  -format pdf  -outputfilepath D:\a\_temp\${{needs.build_and_test.outputs.Value}}.pdf"
+             $outpath="D:\a\test-react\test-react\Veracode-Scans\VeracodeC#API.exe -vid ${{secrets.VERACODE_API_ID}} -vkey ${{secrets.VERACODE_API_KEY}} -action DetailedReport -buildid $buildnumberget.build_id  -format pdf  -outputfilepath D:\a\_temp\${{needs.build_and_test.outputs.Value}}.pdf"
              Invoke-Expression -Command " $outpath "
              
       - name: Upload a Build Artifact
