@@ -83,8 +83,7 @@ jobs:
           uses: ./
           path: Veracode-Scans/
    Download-artifact:
-     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+     
      needs: [Veracode-Result]
      runs-on: ubuntu-latest
      steps:
@@ -96,6 +95,8 @@ jobs:
     
      - name: Copy files to another repository
        uses: nkoppel/push-files-to-another-repository@v1.0.1
+       env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
        with:
          
     
