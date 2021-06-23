@@ -80,15 +80,8 @@ jobs:
         uses: actions/download-artifact@v2.0.10
         with:
           name: Veracode-report
-          uses: ./
-          path: Veracode-Scans/
+          path: Msrinath--71/test-react/Veracode-Scans
           
-      - name: Microsoft Teams Notification for package application
-        uses: skitionek/notify-microsoft-teams@master
-        if: always()
-        with:
-          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
+     
              
 
