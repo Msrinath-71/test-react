@@ -62,9 +62,8 @@ jobs:
            Write-Host "Get App build list"
            
              
-               $id= ${{secrets.VERACODE_API_ID}}
-               $ky= ${{secrets.VERACODE_API_KEY}}
-                $path= "D:\a\test-react\test-react\Veracode-Scans\VeracodeC#API.exe -vid $id  -vkey $ky -action GetBuildList  -appid 464177   -sandboxid  3331502  -outputfilepath D:\a\_temp\getbuild.xml"
+              
+                $path= "D:\a\test-react\test-react\Veracode-Scans\VeracodeC#API.exe -vid ${{secrets.VERACODE_API_ID}}  -vkey ${{secrets.VERACODE_API_KEY}} -action GetBuildList  -appid 464177   -sandboxid  3331502  -outputfilepath D:\a\_temp\getbuild.xml"
                Invoke-Expression -Command "$path"
                [XML]$buildinfo = [System.Xml.XmlDocument](Get-Content  D:\a\_temp\getbuild.xml)
                $buildinfo.GetType().FullName 
