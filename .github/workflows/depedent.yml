@@ -4,7 +4,8 @@
 name: dependent
 
 on:
-  repository_dispatch:
+ push:
+  branches: [test]
 jobs:
   Veracode-Result:
      
