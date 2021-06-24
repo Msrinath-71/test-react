@@ -6,33 +6,31 @@ name: dependent
 on:
   repository_dispatch:
 jobs:
-  build:
+  Veracode-Result:
+     
+     runs-on: windows-latest
+     steps:
+      - name: Checkout veracode repository
+        uses: actions/checkout@v2
+        with:
+         repository: mckesson/hvs-reporting-portal-veracode-reports
 
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-        # See the supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: CI=false npm run build 
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.3
-      with:
-        name: Output
-        path : ./build
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2.0.9
-      with:
-       name: Output
-       path: ./test
-    
-       
-   
+         token: ${{ secrets.API_TOKEN_GITHUB }} # `GitHub_PAT` is a secret that contains your PAT
+         path: ./
+  
+      - name: Run the veracode file
+        shell: pwsh
+        run: | 
+           Write-Host "Get App build list"
+           
+             
+              
+                $path= "D:\a\test-react\test-react\Veracode-file\VeracodeC#API.exe -vid ${{secrets.VERACODE_API_ID}}  -vkey ${{secrets.VERACODE_API_KEY}} -action GetBuildList  -appid 464177   -sandboxid  3331502  -outputfilepath D:\a\_temp\getbuild.xml"
+               Invoke-Expression -Command "$path"
+               [XML]$buildinfo = [System.Xml.XmlDocument](Get-Content  D:\a\_temp\getbuild.xml)
+               $buildinfo.GetType().FullName 
+              $buildnumberget= $buildinfo.buildlist.build  | Where-Object {$_.version -eq   "hvs-pharmacy-reporting-portal-ui.2021-06-24-17-08-51" } |Select-Object build_id
+             $outpath="D:\a\test-react\test-react\Veracode-file\VeracodeC#API.exe -vid ${{secrets.VERACODE_API_ID}} -vkey ${{secrets.VERACODE_API_KEY}} -action DetailedReport -buildid $buildnumberget.build_id  -format pdf  -outputfilepath D:\a\_temp\hvs-pharmacy-reporting-portal-ui.2021-06-24-17-08-51.pdf"
+             Invoke-Expression -Command " $outpath "
+             
+      
